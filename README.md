@@ -15,3 +15,7 @@ Due to the major API changes that was included as part of the DNN 9.2.0 release,
 Recent releases were completed to maintain high-level functionality within the module.  However, this module needs deeper attention.  If you would like to help this project we strongly encourage Pull Requests and will promptly process any pull request with stable feature enhancements that meet the Keep it Simple Stupid (KISS) mantra that has been part of this module.
 
 If you have any questions, or would like to get approval prior to working on a Pull Request please don't hesitate to contact me directly at msellers@iowacomputergurus.com
+
+## Maintainers
+This module is currently maintained by Mitchel Sellers @mitchelsellers
+Please coordinate with him before publishing any new release and ask is review on any pull request.
