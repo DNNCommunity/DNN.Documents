@@ -165,10 +165,10 @@ GO
 
 --Discrepancy fix for upgrades prior to version 06.00.00
 IF (SELECT COLUMNPROPERTY( OBJECT_ID('{databaseOwner}{objectQualifier}DocumentsSettings'),'AllowUserSort','AllowsNull')) IS NULL 
-	ALTER TABLE {databaseOwner}{objectQualifier}DocumentsSettings 
-		DefaultFolder NVARCHAR(2000) NULL,
+	ALTER TABLE {databaseOwner}{objectQualifier}DocumentsSettings
+		ADD DefaultFolder NVARCHAR(2000) NULL,
 		CategoriesListName NVARCHAR(50) NULL,
-		ADD AllowUserSort BIT NULL
+		AllowUserSort BIT NULL
 GO
 
 --Ensure all procedures the same
