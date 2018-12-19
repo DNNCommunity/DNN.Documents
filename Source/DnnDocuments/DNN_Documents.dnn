@@ -33,6 +33,9 @@
       </license>
       <releaseNotes>
         <![CDATA[ 
+        <h3>Version 07.01.00</h3>
+        <p>Fixes an issue with some upgrade scenarios.</p>
+        
         <h3>Version 07.00.00</h3>
         <p>This version was released to establish support for DNN 9.2.0 and later. Minimum version of DNN upgraded to require 7.0.0 or later.</p>
         
