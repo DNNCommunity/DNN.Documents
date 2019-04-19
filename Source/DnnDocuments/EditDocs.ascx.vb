@@ -272,9 +272,11 @@ Namespace DotNetNuke.Modules.Documents
             Dim fileRolesList As List(Of PermissionInfoBase) = FileRoles.ToList()
             Dim fileReadRoles As IEnumerable(Of PermissionInfoBase) = From fileRole In fileRolesList Where fileRole.PermissionKey = "READ"
             For Each fileRole As FolderPermissionInfo In fileReadRoles
-                objFileRoles.Add(fileRole.RoleName, fileRole.RoleName)
-                If fileRole.RoleName = DotNetNuke.Common.Globals.glbRoleAllUsersName Then
-                    Return True
+                If Not fileRole.RoleName = "" Then
+                    objFileRoles.Add(fileRole.RoleName, fileRole.RoleName)
+                    If fileRole.RoleName = DotNetNuke.Common.Globals.glbRoleAllUsersName Then
+                        Return True
+                    End If
                 End If
             Next
 
