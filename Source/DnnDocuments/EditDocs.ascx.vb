@@ -615,35 +615,12 @@ Namespace DotNetNuke.Modules.Documents
 
         Private Sub PopulateOwnerList()
             ' populate owner list
-            Dim objUser As List(Of DotNetNuke.Entities.Users.UserInfo)
-            objUser = UserController.GetUsers(False, False, PortalId).Cast(Of UserInfo)().Distinct().ToList()
+            lstOwner.DataSource = UserController.GetUsers(Null.NullInteger).Cast(Of UserInfo).Distinct().OrderBy(Function(i As UserInfo) i.DisplayName)
 
-            'load owners into the owner list
-            lstOwner.DataSource = objUser.OrderBy(Function(i As UserInfo) i.DisplayName)
             lstOwner.DataTextField = "DisplayName"
             lstOwner.DataValueField = "UserId"
 
             lstOwner.DataBind()
-
-            'GetUsers doesn't return super-users, but they can own documents
-            Dim objSuperUser As List(Of DotNetNuke.Entities.Users.UserInfo)
-            objSuperUser = UserController.GetUsers(Null.NullInteger).Cast(Of UserInfo)().Distinct().ToList()
-
-            'Compare the two lists and remove the duplicate super user
-            If objSuperUser.Any() Then
-                For Each user As DotNetNuke.Entities.Users.UserInfo In objUser
-                    For Each superuser As DotNetNuke.Entities.Users.UserInfo In objSuperUser
-                        If user.DisplayName = superuser.DisplayName Then
-                            lstOwner.Items.Remove(superuser.DisplayName)
-                            Exit For
-                        Else
-                            lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(superuser.DisplayName, superuser.UserID.ToString))
-                            Exit For
-                        End If
-                    Next
-                Next
-            End If
-
 
             lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(Services.Localization.Localization.GetString("None_Specified"), "-1"))
             '' End With
