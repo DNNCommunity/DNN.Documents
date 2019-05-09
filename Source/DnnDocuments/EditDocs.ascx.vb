@@ -615,23 +615,35 @@ Namespace DotNetNuke.Modules.Documents
 
         Private Sub PopulateOwnerList()
             ' populate owner list
-            lstOwner.DataSource = UserController.GetUsers(False, False, PortalId).Cast(Of UserInfo).OrderBy(Function(i As UserInfo) i.DisplayName)
+            Dim objUser As List(Of DotNetNuke.Entities.Users.UserInfo)
+            objUser = UserController.GetUsers(False, False, PortalId).Cast(Of UserInfo)().ToList()
 
+            'GetUsers doesn't return super-users, but they can own documents
+            Dim objSuperUser As List(Of DotNetNuke.Entities.Users.UserInfo)
+            objSuperUser = UserController.GetUsers(Null.NullInteger).Cast(Of UserInfo)().ToList()
+
+            'Compare the two lists and remove the duplicate super users from the users
+            For Each user As DotNetNuke.Entities.Users.UserInfo In objUser
+                For Each superuser As DotNetNuke.Entities.Users.UserInfo In objSuperUser
+                    If user.DisplayName = superuser.DisplayName Then
+                        objSuperUser.Remove(user)
+                        Exit For
+                    End If
+                Next
+            Next
+
+            'load data into the owner list
+            lstOwner.DataSource = objSuperUser.OrderBy(Function(i As UserInfo) i.DisplayName)
             lstOwner.DataTextField = "DisplayName"
             lstOwner.DataValueField = "UserId"
 
             lstOwner.DataBind()
 
-            ' .GetUsers doesn't return super-users, but they can own documents
-            ' so add them to the list
-            Dim objSuperUser As DotNetNuke.Entities.Users.UserInfo
-            For Each objSuperUser In UserController.GetUsers(Null.NullInteger)
-                lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(objSuperUser.DisplayName, objSuperUser.UserID.ToString))
-            Next
-
             lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(Services.Localization.Localization.GetString("None_Specified"), "-1"))
             '' End With
         End Sub
+
+
 
     End Class
 
