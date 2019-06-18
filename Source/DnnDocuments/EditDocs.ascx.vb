@@ -615,19 +615,12 @@ Namespace DotNetNuke.Modules.Documents
 
         Private Sub PopulateOwnerList()
             ' populate owner list
-            lstOwner.DataSource = UserController.GetUsers(False, False, PortalId).Cast(Of UserInfo).OrderBy(Function(i As UserInfo) i.DisplayName)
+            lstOwner.DataSource = UserController.GetUsers(Null.NullInteger).Cast(Of UserInfo).Distinct().OrderBy(Function(i As UserInfo) i.DisplayName)
 
             lstOwner.DataTextField = "DisplayName"
             lstOwner.DataValueField = "UserId"
 
             lstOwner.DataBind()
-
-            ' .GetUsers doesn't return super-users, but they can own documents
-            ' so add them to the list
-            Dim objSuperUser As DotNetNuke.Entities.Users.UserInfo
-            For Each objSuperUser In UserController.GetUsers(Null.NullInteger)
-                lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(objSuperUser.DisplayName, objSuperUser.UserID.ToString))
-            Next
 
             lstOwner.Items.Insert(0, New System.Web.UI.WebControls.ListItem(Services.Localization.Localization.GetString("None_Specified"), "-1"))
             '' End With
