@@ -17,5 +17,6 @@ Recent releases were completed to maintain high-level functionality within the m
 If you have any questions, or would like to get approval prior to working on a Pull Request please don't hesitate to contact me directly at msellers@iowacomputergurus.com
 
 ## Maintainers
-This module is currently maintained by Mitchel Sellers @mitchelsellers
-Please coordinate with him before publishing any new release and ask is review on any pull request.
+This module is currently maintained by Mitchel Sellers @mitchelsellers, and the rest of the DNN Community.
+
+Please coordinate with him before publishing any new release and ask his review on any pull request.

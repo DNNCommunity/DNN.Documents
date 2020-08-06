@@ -7,10 +7,10 @@
         (for example, a friendly title) stored in the SQL database.
       </description>
       <owner>
-        <name>Mitchel Sellers</name>
+        <name>DNN Community</name>
         <organization>DotNetNuke Community</organization>
-        <url>https://github.com/mitchelsellers/dnnDocuments</url>
-        <email>msellers@iowacomputergurus.com</email>
+        <url>https://github.com/DNNCommunity/DNN.Documents</url>
+        <email>info@dnncommunity.org</email>
       </owner>
       <license>
         <![CDATA[
