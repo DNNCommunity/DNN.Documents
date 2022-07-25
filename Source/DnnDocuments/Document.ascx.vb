@@ -1,5 +1,5 @@
 '
-' DotNetNuke® - http://www.dotnetnuke.com
+' DotNetNukeÂ® - http://www.dotnetnuke.com
 ' Copyright (c) 2002-2011
 ' by DotNetNuke Corporation
 '
@@ -209,7 +209,7 @@ Namespace DotNetNuke.Modules.Documents
                             With CType(e.Item.Controls(mintDownloadLinkColumnIndex).FindControl("ctlDownloadLink"), Web.UI.WebControls.HyperLink)
                                 ' Note: The title link should display open/save dialog if possible, 
                                 ' so set ForceDownload=True
-                                .NavigateUrl = DotNetNuke.Common.Globals.LinkClick(objDocument.Url, TabId, ModuleId, objDocument.TrackClicks, objDocument.ForceDownload)
+                                .NavigateUrl = DotNetNuke.Common.Globals.LinkClick(objDocument.Url, TabId, ModuleId, objDocument.TrackClicks, True)
                                 If objDocument.NewWindow Then
                                     .Target = "_blank"
                                 End If
