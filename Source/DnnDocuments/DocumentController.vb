@@ -63,9 +63,7 @@ Namespace DotNetNuke.Modules.Documents
         End Sub
 
         Public Function GetDocument(ByVal ItemId As Integer, ByVal ModuleId As Integer) As DocumentInfo
-
-            Return CType(CBO.FillObject(DataProvider.Instance().GetDocument(ItemId, ModuleId), GetType(DocumentInfo)), DocumentInfo)
-
+            Return CBO.FillObject(Of DocumentInfo)(DataProvider.Instance().GetDocument(ItemId, ModuleId))
         End Function
 
         Public Function GetDocuments(ByVal ModuleId As Integer, ByVal PortalId As Integer) As ArrayList
@@ -94,7 +92,7 @@ Namespace DotNetNuke.Modules.Documents
         End Sub
 
         Public Function GetDocumentsSettings(ByVal ModuleId As Integer) As DocumentsSettingsInfo
-            Return CType(CBO.FillObject(DataProvider.Instance().GetDocumentsSettings(ModuleId), GetType(DocumentsSettingsInfo)), DocumentsSettingsInfo)
+            Return CBO.FillObject(Of DocumentsSettingsInfo)(DataProvider.Instance().GetDocumentsSettings(ModuleId))
         End Function
 
         Public Sub UpdateDocumentsSettings(ByVal objDocumentsSettings As DocumentsSettingsInfo)
@@ -273,8 +271,8 @@ Namespace DotNetNuke.Modules.Documents
       Dim xmlDocument As XmlNode
       Dim strUrl As String = String.Empty
       Dim xmlDocuments As XmlNode = GetContent(Content, "documents")
-      Dim documentNodes As XmlNodeList = xmlDocuments.SelectNodes("document")
-      For Each xmlDocument In documentNodes
+            Dim documentNodes As XmlNodeList = xmlDocuments.SelectNodes("document")
+            For Each xmlDocument In documentNodes
         Dim objDocument As New DocumentInfo
         objDocument.ModuleId = ModuleID
         objDocument.Title = xmlDocument.Item("title").InnerText
