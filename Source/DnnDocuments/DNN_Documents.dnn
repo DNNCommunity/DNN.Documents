@@ -51,7 +51,7 @@
         ]]>
       </releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.00</dependency>
+        <dependency type="CoreVersion">09.02.01</dependency>
       </dependencies>
       <components>
         <component type="Script">
