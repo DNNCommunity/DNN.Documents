@@ -1,0 +1,19 @@
+mode: ContinuousDeployment
+next-version: 8.0.0
+branches: 
+  develop:
+    regex: develop
+    label: 'alpha'
+    increment: Patch
+    prevent-increment:
+      when-current-commit-tagged: true
+    source-branches: []
+  pull-request:
+    regex: ^(pull-requests|pull|pr)[\/-](?<Number>\d+)
+    label: 'pr{Number}'
+    increment: Patch
+    is-release-branch: false
+    source-branches: []
+ignore:
+  sha: []
+merge-message-formats: {}
