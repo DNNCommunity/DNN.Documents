@@ -195,8 +195,8 @@ Namespace DotNetNuke.Modules.Documents
                         End If
                     Else
                         Try
-                            lstOwner.SelectedValue = DotNetNuke.Entities.Users.UserController.GetCurrentUserInfo.UserID.ToString
-                            lblOwner.Text = DotNetNuke.Entities.Users.UserController.GetCurrentUserInfo.DisplayName
+                            lstOwner.SelectedValue = DotNetNuke.Entities.Users.UserController.Instance.GetCurrentUserInfo.UserID.ToString
+                            lblOwner.Text = DotNetNuke.Entities.Users.UserController.Instance.GetCurrentUserInfo.DisplayName
                         Catch exc As Exception
                             ' suppress error (defensive code only, would only happen if the owner
                             ' user has been deleted)
@@ -378,7 +378,7 @@ Namespace DotNetNuke.Modules.Documents
         '''                       and localisation
         ''' </history>
         ''' -----------------------------------------------------------------------------
-        Private Sub cmdCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmdCancel.Click
+        Private Sub cmdCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
             Try
                 ' Redirect back to the portal home page
                 Response.Redirect(NavigateURL(), True)
@@ -398,7 +398,7 @@ Namespace DotNetNuke.Modules.Documents
         '''                       and localisation
         ''' </history>
         ''' -----------------------------------------------------------------------------
-        Private Sub cmdDelete_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmdDelete.Click
+        Private Sub cmdDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdDelete.Click
             Try
                 If Not Common.Utilities.Null.IsNull(ItemID) Then
 
@@ -427,7 +427,7 @@ Namespace DotNetNuke.Modules.Documents
         '''                       and localisation
         ''' </history>
         ''' -----------------------------------------------------------------------------
-        Private Sub cmdUpdate_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cmdUpdate.Click
+        Private Sub cmdUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdUpdate.Click
             Update(False)
         End Sub
 
@@ -600,7 +600,7 @@ Namespace DotNetNuke.Modules.Documents
 
                 Try
                     If objDocument Is Nothing Then
-                        lstOwner.SelectedValue = DotNetNuke.Entities.Users.UserController.GetCurrentUserInfo.UserID.ToString
+                        lstOwner.SelectedValue = DotNetNuke.Entities.Users.UserController.Instance.GetCurrentUserInfo.UserID.ToString
                     Else
                         lstOwner.SelectedValue = objDocument.OwnedByUserId.ToString
                     End If
