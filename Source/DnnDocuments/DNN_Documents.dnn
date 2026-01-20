@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_Documents" type="Module" version="07.01.01">
+    <package name="DNN_Documents" type="Module" version="08.00.00">
       <friendlyName>Documents</friendlyName>
       <description>This module renders a list of documents, including links to browse or download the document. 
         Documents includes an edit page, which allows authorized users to edit the information about the Documents 
@@ -51,7 +51,7 @@
         ]]>
       </releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.00</dependency>
+        <dependency type="CoreVersion">09.02.01</dependency>
       </dependencies>
       <components>
         <component type="Script">

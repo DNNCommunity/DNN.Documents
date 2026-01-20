@@ -24,6 +24,8 @@ Imports System.Data
 Imports DotNetNuke
 Imports System.XML
 Imports DotNetNuke.Common.Utilities.XmlUtils
+Imports DotNetNuke.Services.Search.Entities
+Imports System.Collections.Generic
 
 Namespace DotNetNuke.Modules.Documents
 
@@ -43,16 +45,16 @@ Namespace DotNetNuke.Modules.Documents
   ''' </history>
   ''' -----------------------------------------------------------------------------
   Public Class DocumentController
-    Implements Entities.Modules.ISearchable
-    Implements Entities.Modules.IPortable
+        Inherits Entities.Modules.ModuleSearchBase
+        Implements Entities.Modules.IPortable
 
 #Region "Public Methods"
 
-    Public Sub AddDocument(ByVal objDocument As DocumentInfo)
+        Public Sub AddDocument(ByVal objDocument As DocumentInfo)
 
             DataProvider.Instance().AddDocument(objDocument.ModuleId, objDocument.Title, objDocument.Url, objDocument.CreatedByUserId, objDocument.OwnedByUserId, objDocument.Category, objDocument.SortOrderIndex, objDocument.Description, objDocument.ForceDownload)
 
-    End Sub
+        End Sub
 
         Public Sub DeleteDocument(ByVal ModuleId As Integer, ByVal ItemID As Integer)
 
@@ -60,84 +62,89 @@ Namespace DotNetNuke.Modules.Documents
 
         End Sub
 
-    Public Function GetDocument(ByVal ItemId As Integer, ByVal ModuleId As Integer) As DocumentInfo
+        Public Function GetDocument(ByVal ItemId As Integer, ByVal ModuleId As Integer) As DocumentInfo
+            Return CBO.FillObject(Of DocumentInfo)(DataProvider.Instance().GetDocument(ItemId, ModuleId))
+        End Function
 
-      Return CType(CBO.FillObject(DataProvider.Instance().GetDocument(ItemId, ModuleId), GetType(DocumentInfo)), DocumentInfo)
+        Public Function GetDocuments(ByVal ModuleId As Integer, ByVal PortalId As Integer) As ArrayList
 
-    End Function
+            Return CBO.FillCollection(DataProvider.Instance().GetDocuments(ModuleId, PortalId), GetType(DocumentInfo))
 
-    Public Function GetDocuments(ByVal ModuleId As Integer, ByVal PortalId As Integer) As ArrayList
+        End Function
 
-      Return CBO.FillCollection(DataProvider.Instance().GetDocuments(ModuleId, PortalId), GetType(DocumentInfo))
-
-    End Function
-
-    Public Sub UpdateDocument(ByVal objDocument As DocumentInfo)
+        Public Sub UpdateDocument(ByVal objDocument As DocumentInfo)
             DataProvider.Instance().UpdateDocument(objDocument.ModuleId, objDocument.ItemId, objDocument.Title, objDocument.Url, objDocument.ModifiedByUserId, objDocument.OwnedByUserId, objDocument.Category, objDocument.SortOrderIndex, objDocument.Description, objDocument.ForceDownload)
-    End Sub
+        End Sub
 
-    Public Sub AddDocumentsSettings(ByVal objDocumentsSettings As DocumentsSettingsInfo)
-      DataProvider.Instance().AddDocumentsSettings(objDocumentsSettings.ModuleId, _
-      objDocumentsSettings.ShowTitleLink, _
-      objDocumentsSettings.SortOrder, _
-      objDocumentsSettings.DisplayColumns, _
-      objDocumentsSettings.UseCategoriesList, _
-      objDocumentsSettings.DefaultFolder, _
-      objDocumentsSettings.CategoriesListName, _
+        Public Sub AddDocumentsSettings(ByVal objDocumentsSettings As DocumentsSettingsInfo)
+            DataProvider.Instance().AddDocumentsSettings(objDocumentsSettings.ModuleId,
+      objDocumentsSettings.ShowTitleLink,
+      objDocumentsSettings.SortOrder,
+      objDocumentsSettings.DisplayColumns,
+      objDocumentsSettings.UseCategoriesList,
+      objDocumentsSettings.DefaultFolder,
+      objDocumentsSettings.CategoriesListName,
       objDocumentsSettings.AllowUserSort)
-    End Sub
+        End Sub
 
-    Public Sub DeleteDocumentsSettings(ByVal ModuleID As Integer)
-      DataProvider.Instance().DeleteDocumentsSettings(ModuleID)
-    End Sub
+        Public Sub DeleteDocumentsSettings(ByVal ModuleID As Integer)
+            DataProvider.Instance().DeleteDocumentsSettings(ModuleID)
+        End Sub
 
-    Public Function GetDocumentsSettings(ByVal ModuleId As Integer) As DocumentsSettingsInfo
-      Return CType(CBO.FillObject(DataProvider.Instance().GetDocumentsSettings(ModuleId), GetType(DocumentsSettingsInfo)), DocumentsSettingsInfo)
-    End Function
+        Public Function GetDocumentsSettings(ByVal ModuleId As Integer) As DocumentsSettingsInfo
+            Return CBO.FillObject(Of DocumentsSettingsInfo)(DataProvider.Instance().GetDocumentsSettings(ModuleId))
+        End Function
 
-    Public Sub UpdateDocumentsSettings(ByVal objDocumentsSettings As DocumentsSettingsInfo)
-      DataProvider.Instance().UpdateDocumentsSettings(objDocumentsSettings.ModuleId, objDocumentsSettings.ShowTitleLink, objDocumentsSettings.SortOrder, objDocumentsSettings.DisplayColumns, objDocumentsSettings.UseCategoriesList, objDocumentsSettings.DefaultFolder, objDocumentsSettings.CategoriesListName, objDocumentsSettings.AllowUserSort)
-    End Sub
+        Public Sub UpdateDocumentsSettings(ByVal objDocumentsSettings As DocumentsSettingsInfo)
+            DataProvider.Instance().UpdateDocumentsSettings(objDocumentsSettings.ModuleId, objDocumentsSettings.ShowTitleLink, objDocumentsSettings.SortOrder, objDocumentsSettings.DisplayColumns, objDocumentsSettings.UseCategoriesList, objDocumentsSettings.DefaultFolder, objDocumentsSettings.CategoriesListName, objDocumentsSettings.AllowUserSort)
+        End Sub
 
 #End Region
 
 #Region "Optional Interfaces"
 
-    ''' -----------------------------------------------------------------------------
-    ''' <summary>
-    ''' GetSearchItems implements the ISearchable Interface
-    ''' </summary>
-    ''' <remarks>
-    ''' </remarks>
-    ''' <param name="ModInfo">The ModuleInfo for the module to be Indexed</param>
-    ''' <history>
-    '''		[cnurse]	    17 Nov 2004	documented
-    '''   [aglenwright] 18 Feb 2006 Altered to accomodate change to CreatedByUser
-    '''                             field (changed from string to integer)
-    ''' </history>
-    ''' -----------------------------------------------------------------------------
-    Public Function GetSearchItems(ByVal ModInfo As Entities.Modules.ModuleInfo) As Services.Search.SearchItemInfoCollection Implements Entities.Modules.ISearchable.GetSearchItems
-      Dim SearchItemCollection As New SearchItemInfoCollection
-      Dim Documents As ArrayList = GetDocuments(ModInfo.ModuleID, ModInfo.PortalID)
+        ''' -----------------------------------------------------------------------------
+        ''' <summary>
+        ''' GetModifiedSearchDocuments implements the ModuleSearchBase
+        ''' </summary>
+        ''' <remarks>
+        ''' </remarks>
+        ''' <param name="moduleInfo">The ModuleInfo for the module to be Indexed</param>
+        ''' <param name="beginDateUtc">The start date for modified content</param>
+        ''' <history>
+        '''		[cnurse]	    17 Nov 2004	documented
+        '''   [aglenwright] 18 Feb 2006 Altered to accomodate change to CreatedByUser
+        '''                             field (changed from string to integer)
+        '''   [updated]     2026 Converted to ModuleSearchBase
+        ''' </history>
+        ''' -----------------------------------------------------------------------------
+        Public Overrides Function GetModifiedSearchDocuments(moduleInfo As Entities.Modules.ModuleInfo, beginDateUtc As Date) As IList(Of SearchDocument)
+            Dim searchDocuments As New List(Of SearchDocument)
+            Dim documents As ArrayList = GetDocuments(moduleInfo.ModuleID, moduleInfo.PortalID)
 
-      ' TODO: Add new fields
+            For Each objDocument As DocumentInfo In documents
+                ' Only include documents modified after the begin date
+                If objDocument.ModifiedDate >= beginDateUtc Then
+                    Dim searchDoc As New SearchDocument With {
+            .UniqueKey = String.Format("Documents_{0}_{1}", moduleInfo.ModuleID, objDocument.ItemId),
+            .Title = objDocument.Title,
+            .Body = String.Format("{0} {1} {2}", objDocument.Title, objDocument.Category, objDocument.Description),
+            .Description = objDocument.Description,
+            .ModifiedTimeUtc = objDocument.ModifiedDate.ToUniversalTime(),
+            .AuthorUserId = objDocument.CreatedByUserId,
+            .TabId = moduleInfo.TabID,
+            .ModuleId = moduleInfo.ModuleID,
+            .ModuleDefId = moduleInfo.ModuleDefID,
+            .PortalId = moduleInfo.PortalID,
+            .QueryString = "ItemId=" & objDocument.ItemId.ToString(),
+            .CultureCode = moduleInfo.CultureCode
+          }
+                    searchDocuments.Add(searchDoc)
+                End If
+            Next
 
-      Dim objDocument As Object
-      For Each objDocument In Documents
-        Dim SearchItem As SearchItemInfo
-        With CType(objDocument, DocumentInfo)
-          Dim UserId As Integer = Null.NullInteger
-          'If IsNumeric(.CreatedByUser) Then
-          '    UserId = Integer.Parse(.CreatedByUser)
-          'End If
-          UserId = .CreatedByUserID
-                    SearchItem = New SearchItemInfo(ModInfo.ModuleTitle & " - " & .Title, .Title, UserId, .CreatedDate, ModInfo.ModuleID, .ItemId.ToString, .Title & " " & .Category & " " & .Description, "ItemId=" & .ItemId.ToString)
-          SearchItemCollection.Add(SearchItem)
-        End With
-      Next
-
-      Return SearchItemCollection
-    End Function
+            Return searchDocuments
+        End Function
 
     ''' -----------------------------------------------------------------------------
     ''' <summary>
@@ -264,8 +271,8 @@ Namespace DotNetNuke.Modules.Documents
       Dim xmlDocument As XmlNode
       Dim strUrl As String = String.Empty
       Dim xmlDocuments As XmlNode = GetContent(Content, "documents")
-      Dim documentNodes As XmlNodeList = xmlDocuments.SelectNodes("document")
-      For Each xmlDocument In documentNodes
+            Dim documentNodes As XmlNodeList = xmlDocuments.SelectNodes("document")
+            For Each xmlDocument In documentNodes
         Dim objDocument As New DocumentInfo
         objDocument.ModuleId = ModuleID
         objDocument.Title = xmlDocument.Item("title").InnerText

@@ -4,11 +4,21 @@ A simple document management module for DotNetNuke & Evoq.  This module has been
 
 ## Minimum DNN Versions
 
-The current release of the DNN Documents module requires DNN 7.0.0 and later and .NET 4.0.  This release can be installed on any DNN Version from 7.0.0 to 9.2.x and later.  This release contains major fixes required for the 9.2.x release.
+### DNN Documents 8.0.0 and Later
 
-## DNN Upgrade Considerations
+The current release requires DNN Platform 9.2.1 or later and .NET 4.7 and later.  
 
-Due to the major API changes that was included as part of the DNN 9.2.0 release, it is recommended that you upgrade the DNN Documents module to 7.0.0 BEFORE upgrading your website to DNN/Evoq 9.2.0, this will ensure that you do not encounter any upgrade errors related to this module.
+This release has been tested to work with DNN Platform 10.x
+
+### DNN Documents 7.x Version
+
+This version required .NET 4.0 and supported DNN Platform 7.0.0 through 9.13.10.  
+
+Version 7.x WILL NOT work successfully with DNN Platform 10.x and should be updated to at minimum 8.0.0 prior to upgrading to DNN Platform 10.x
+
+### DNN Documents Prior to 7.x
+
+Versions older than 7.0.0 are considered extremely legacy and an upgrade to version 7.0.0 should be completed PRIOR to upgrading to DNN Platform 9.2.0.  
 
 ## Get Involved
 
@@ -17,6 +27,5 @@ Recent releases were completed to maintain high-level functionality within the m
 If you have any questions, or would like to get approval prior to working on a Pull Request please don't hesitate to contact me directly at msellers@iowacomputergurus.com
 
 ## Maintainers
-This module is currently maintained by Mitchel Sellers @mitchelsellers, and the rest of the DNN Community.
 
-Please coordinate with him before publishing any new release and ask his review on any pull request.
+This module is maintained by the DNN Community on a 100% volunteer basis.  Please consider supporting those that have been contributing to the continued maintenance of this module.
