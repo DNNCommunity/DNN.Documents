@@ -247,7 +247,7 @@ Namespace DotNetNuke.Modules.Documents
                         ' Get file's folder security                        
                         Dim moduleRoles As ModulePermissionCollection = ModulePermissionController.GetModulePermissions(ModuleId, TabId)
                         Dim fileRoles As FolderPermissionCollection = Security.Permissions.FolderPermissionController.GetFolderPermissionsCollectionByFolder(PortalId, objFile.Folder)
-                            Return CheckRolesMatch(moduleRoles, fileRoles)
+                        Return CheckRolesMatch(moduleRoles, fileRoles)
                     End If
             End Select
             Return True
@@ -294,13 +294,13 @@ Namespace DotNetNuke.Modules.Documents
             Next
             If blnNotMatching Then
                 ' Warn user that roles do not match
-                DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me, _
-                    DotNetNuke.Services.Localization.Localization.GetString("msgFileSecurityWarning.Text", Me.LocalResourceFile).Replace("[$ROLELIST]", IIf(strRolesForMessage.IndexOf(",") >= 0, "s", "").ToString & "'" & strRolesForMessage & "'"), _
+                DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me,
+                    DotNetNuke.Services.Localization.Localization.GetString("msgFileSecurityWarning.Text", Me.LocalResourceFile).Replace("[$ROLELIST]", IIf(strRolesForMessage.IndexOf(",") >= 0, "s", "").ToString & "'" & strRolesForMessage & "'"),
                     DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.YellowWarning)
                 Return False
             Else
                 Return True
-            End If           
+            End If
         End Function
 
         ''' -----------------------------------------------------------------------------
@@ -314,14 +314,14 @@ Namespace DotNetNuke.Modules.Documents
         ''' </history>
         ''' -----------------------------------------------------------------------------
         Private Function CheckFileExists(ByVal Url As String) As Boolean
-            Dim intFileId As Integer            
+            Dim intFileId As Integer
             Dim objFile As New DotNetNuke.Services.FileSystem.FileInfo
             Dim blnAddWarning As Boolean
 
             If Url = String.Empty Then
                 ' File not selected
-                DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me, _
-                DotNetNuke.Services.Localization.Localization.GetString("msgNoFileSelected.Text", Me.LocalResourceFile), _
+                DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me,
+                DotNetNuke.Services.Localization.Localization.GetString("msgNoFileSelected.Text", Me.LocalResourceFile),
                   DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.YellowWarning)
                 Return False
             Else
@@ -352,8 +352,8 @@ Namespace DotNetNuke.Modules.Documents
 
                         If blnAddWarning Then
                             ' Display a "file not found" warning
-                            DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me, _
-                              DotNetNuke.Services.Localization.Localization.GetString("msgFileDeleted.Text", Me.LocalResourceFile), _
+                            DotNetNuke.UI.Skins.Skin.AddModuleMessage(Me,
+                              DotNetNuke.Services.Localization.Localization.GetString("msgFileDeleted.Text", Me.LocalResourceFile),
                               DotNetNuke.UI.Skins.Controls.ModuleMessage.ModuleMessageType.YellowWarning)
                             Return False
                         End If
@@ -457,10 +457,10 @@ Namespace DotNetNuke.Modules.Documents
                             Me.cmdUpdate.Visible = False
 
                             ' '' Display page-level warning instructing users to click update again if they want to ignore the warning
-                            DotNetNuke.UI.Skins.Skin.AddPageMessage( _
-                               Me.Page, _
-                               DotNetNuke.Services.Localization.Localization.GetString("msgFileWarningHeading.Text", Me.LocalResourceFile), _
-                               DotNetNuke.Services.Localization.Localization.GetString("msgFileWarning.Text", Me.LocalResourceFile), _
+                            DotNetNuke.UI.Skins.Skin.AddPageMessage(
+                               Me.Page,
+                               DotNetNuke.Services.Localization.Localization.GetString("msgFileWarningHeading.Text", Me.LocalResourceFile),
+                               DotNetNuke.Services.Localization.Localization.GetString("msgFileWarning.Text", Me.LocalResourceFile),
                                Skins.Controls.ModuleMessage.ModuleMessageType.YellowWarning)
                             Exit Sub
                         End If
@@ -615,7 +615,7 @@ Namespace DotNetNuke.Modules.Documents
 
         Private Sub PopulateOwnerList()
             ' populate owner list
-            lstOwner.DataSource = UserController.GetUsers(Null.NullInteger).Cast(Of UserInfo).Distinct().OrderBy(Function(i As UserInfo) i.DisplayName)
+            lstOwner.DataSource = UserController.GetUsers(PortalId).Cast(Of UserInfo).Distinct().OrderBy(Function(i As UserInfo) i.DisplayName)
 
             lstOwner.DataTextField = "DisplayName"
             lstOwner.DataValueField = "UserId"
